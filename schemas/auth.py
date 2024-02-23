@@ -22,44 +22,65 @@ fake_users_db = {
 }
 
 
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+# VERIFYING PASSWORD(PASSWORD AND HASHED PASSWORD COMPARISON)
 
 
-def authenticateuser(email: str, password: str):
-    user = fake_users_db.get(email)
-    if not user:
-        return False
-    if not verify_password(password, user["hashed_password"]):
-        return False
-    return user
+def verify_password(normalpassword, hashedpassword):
+    try:
+        return pwd_context.verify(normalpassword, hashedpassword)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# USER-AUTHENTICATION
+
+
+def authenticate_user(email: str, password: str):
+    try:
+        user = fake_users_db.get(email)
+        if not user:
+            return False
+        if not verify_password(password, user["hashed_password"]):
+            return False
+        return user
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# THE TOKEN IS GENERATED HERE
 
 
 def create_access_token(data: dict, expires_delta: timedelta = None):
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
-
-
-def getcurrentuser(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Invalid authentication credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email: str = payload.get("sub")
-        if email is None:
+        to_encode = data.copy()
+        if expires_delta:
+            expire = datetime.utcnow() + expires_delta
+        else:
+            expire = datetime.utcnow() + timedelta(minutes=15)
+        to_encode.update({"exp": expire})
+        encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+        return encoded_jwt
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# GET THE DETAILS OF THE CURRENT USER
+
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    try:
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            email: str = payload.get("sub")
+            if email is None:
+                raise credentials_exception
+        except JWTError:
             raise credentials_exception
-    except JWTError:
-        raise credentials_exception
-    user = fake_users_db.get(email)
-    if user is None:
-        raise credentials_exception
-    return user
+        user = fake_users_db.get(email)
+        if user is None:
+            raise credentials_exception
+        return user
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
