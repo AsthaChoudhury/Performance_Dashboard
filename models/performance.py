@@ -1,9 +1,14 @@
 from pydantic import BaseModel
 
+# defining performance_metrics variables
+
 
 class performance(BaseModel):
     Uptime: float
-    Downtime: float
+    downtime: float
     Efficiency: float
-    maintenancecosts: float
     failurerate: float
+    downtime_start: str
+    downtime_end: str
+    downtime_reason: str
+    total_time: float
