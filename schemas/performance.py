@@ -2,9 +2,12 @@ def performance_metric_entity(item) -> dict:
     return {
         "uptime": item["uptime"],
         "downtime": item["downtime"],
+        "downtime_start": item["downtime_start"],
+        "downtime_end": item["downtime_end"],
+        "downtime_reason": item["downtime_reason"],
         "efficiency": item["efficiency"],
-        "maintenance_costs": item["maintenance_costs"],
-        "failure_rate": item["failure_rate"]
+        "failure_rate": item["failure_rate"],
+        "total_time": item["total_time"]
     }
 
 
