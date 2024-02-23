@@ -5,6 +5,8 @@ from schemas.assets import assetEntity, assetsEntity
 
 router = APIRouter()
 
+# GET ALL THE ASSETS
+
 
 @router.get('/')
 async def find_assets():
@@ -14,6 +16,8 @@ async def find_assets():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# CREATE ASSETS
+
 
 @router.post('/')
 async def create_asset(asset: Asset):
@@ -22,6 +26,8 @@ async def create_asset(asset: Asset):
         return {'asset_id': str(inserted_asset.inserted_id)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# GET ANY PARTICULAR ASSETS
 
 
 @router.get('/{asset_id}')
@@ -34,6 +40,8 @@ async def find_asset_by_id(asset_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# UPDATE ANY EXISTING ASSET
+
 
 @router.put('/{asset_id}')
 async def update_asset(asset_id: str, asset: Asset):
@@ -45,6 +53,8 @@ async def update_asset(asset_id: str, asset: Asset):
         raise HTTPException(status_code=404, detail="Asset not found")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# DELETE ANY EXISTING ASSET
 
 
 @router.delete('/{asset_id}')
