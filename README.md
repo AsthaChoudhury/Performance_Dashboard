@@ -14,7 +14,7 @@ This is the Asset Performance Analytics Dashboard, a FastAPI application designe
 ## Set-up
 
 1. Clone the Repository
-2. Install Dependencies: `pip install -r requirements.txt`
+2. Install Dependencies
 3. Set up the Database: Configure the MongoDB connection string in `config/db.py`
 4. Set Environment Variables: Create a `.env` file in the root directory. Add `SECRET_KEY=your_secret_key`
 5. Run the Server: Start the server by running `uvicorn index:app --reload`. `--reload` is used so that every time changes are made it directly changes in the server so no need to refresh the server every time after making changes.
@@ -59,9 +59,6 @@ Contributions are very welcome! If you'd like to contribute to this project, ple
 4. Push your changes to the branch
 5. Create a new pull request and describe your changes in detail
 
-## License
-
-This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
 ## Acknowledgements
 
 - FastAPI Documentation
