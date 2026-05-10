@@ -692,7 +692,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Astha Choudhury**
 
 - GitHub: [@AsthaChoudhury](https://github.com/AsthaChoudhury)
-- LinkedIn: [Your LinkedIn](https://www.linkedin.com/in/astha-choudhury-9b3b21268/)
+- LinkedIn: [@AsthaChoudhury](https://www.linkedin.com/in/astha-choudhury-9b3b21268)
 
 ---
 
